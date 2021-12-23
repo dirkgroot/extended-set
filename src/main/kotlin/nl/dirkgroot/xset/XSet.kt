@@ -1,11 +1,11 @@
 package nl.dirkgroot.xset
 
-interface XSet<S, E> {
+interface XSet<E, S> {
     val size: Int
 
-    fun add(scope: S, element: E)
+    fun add(element: E, atScope: S)
     fun isEmpty(): Boolean
-    fun contains(scope: S, element: E): Boolean
+    fun contains(element: E, atScope: S): Boolean
 
     /**
      * Element projection. Returns the value at the given scope if, and only if,

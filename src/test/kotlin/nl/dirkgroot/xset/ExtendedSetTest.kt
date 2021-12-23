@@ -18,24 +18,24 @@ class ExtendedSetTest {
 
     @Test
     fun `xset with some elements`() {
-        val set = extendedSetOf<String, Any>(
+        val set = extendedSetOf<Any, String>(
             "Dirk" at "name", "Arnhem" at "city", 44 at "age"
         )
 
         assertThat(set.isEmpty()).isFalse()
         assertThat(set.size).isEqualTo(3)
 
-        assertThat(set.contains("name", "Dirk")).isTrue()
-        assertThat(set.contains("city", "Arnhem")).isTrue()
-        assertThat(set.contains("age", 44)).isTrue()
-        assertThat(set.contains("surname", "Groot")).isFalse()
-        assertThat(set.contains("name", "John")).isFalse()
-        assertThat(set.contains("city", "Dirk")).isFalse()
+        assertThat(set.contains("Dirk", "name")).isTrue()
+        assertThat(set.contains("Arnhem", "city")).isTrue()
+        assertThat(set.contains(44, "age")).isTrue()
+        assertThat(set.contains("Groot", "surname")).isFalse()
+        assertThat(set.contains("John", "name")).isFalse()
+        assertThat(set.contains("Dirk", "city")).isFalse()
     }
 
     @Test
     fun `element projection`() {
-        val set = extendedSetOf("Dirk" at "name", "Arnhem" at "city", 44 at "age")
+        val set = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
         val element = set.at("name")
 
         assertThat(element).isEqualTo("Dirk")

@@ -1,11 +1,11 @@
 package nl.dirkgroot.xset
 
-data class XSetElement<S, E>(val element: E, val scope: S)
+data class XSetElement<E, S>(val element: E, val atScope: S)
 
-infix fun <S, E> E.at(scope: S): XSetElement<S, E> = XSetElement(this, scope)
+infix fun <E, S> E.at(scope: S): XSetElement<E, S> = XSetElement(this, scope)
 
-fun <S, E> extendedSetOf(vararg elements: XSetElement<S, E>): XSet<S, E> =
+fun <E, S> extendedSetOf(vararg elements: XSetElement<E, S>): XSet<E, S> =
     elements.fold(InMemoryXSet()) { acc, (e, s) ->
-        acc.add(s, e)
+        acc.add(e, s)
         acc
     }
