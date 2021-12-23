@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 class ExtendedSetTest {
     @Test
     fun `empty xset`() {
-        val set = extendedSetOf<String>()
+        val set = extendedSetOf<String, String>()
 
         assertThat(set.isEmpty()).isTrue()
         assertThat(set.size).isZero()
@@ -18,7 +18,7 @@ class ExtendedSetTest {
 
     @Test
     fun `xset with some elements`() {
-        val set = extendedSetOf(
+        val set = extendedSetOf<String, Any>(
             "Dirk" at "name", "Arnhem" at "city", 44 at "age"
         )
 
