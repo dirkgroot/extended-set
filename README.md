@@ -6,7 +6,7 @@ Practice, learning, having fun.
 
 ## Introduction
 
-The past 1-2 years, I've been a somewhat regular reader of Ron Jeffries' blog
+Since about 1-2 years ago, I'm a somewhat regular reader of Ron Jeffries' blog
 (<https://ronjeffries.com/>). Recently he started a new series of blogs about extended set theory,
 or XST for short. In this series Ron shares the adventures het has in implementing a set-theoretic
 data structure, based on XST, in Codea Lua.
