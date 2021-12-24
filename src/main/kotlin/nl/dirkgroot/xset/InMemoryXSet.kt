@@ -12,7 +12,7 @@ class InMemoryXSet<E, S> : XSet<E, S> {
 
     override fun isEmpty() = map.isEmpty()
 
-    override fun contains(element: E, atScope: S) = map[atScope]?.any { it == element } ?: false
+    override fun contains(element: E, atScope: S) = map[atScope]?.contains(element) ?: false
 
     override fun at(scope: S) = map[scope]?.singleOrNull()
 }
