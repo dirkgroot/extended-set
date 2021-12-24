@@ -40,6 +40,18 @@ class ExtendedSetTest {
         assertThat(set.at("bar")).isEqualTo(null)
     }
 
-        assertThat(element).isEqualTo("Dirk")
+
+    @Test
+    fun `type safe nested extended sets`() {
+        val p1 = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
+        val p2 = extendedSetOf<Any, String>("Julia" at "name", "Arnhem" at "city", 19 at "age")
+        val set = extendedSetOf(p1 at "p1", p2 at "p2")
+        val parent1 = extendedSetOf(set at "double nested")
+        val parent2 = extendedSetOf(parent1 at "triple nested")
+
+        assertThat(parent2.size).isEqualTo(1)
+        assertThat(parent2.at("triple nested")?.size).isEqualTo(1)
+        assertThat(parent2.at("triple nested")?.at("double nested")?.size).isEqualTo(2)
+        assertThat(parent2.at("triple nested")?.at("double nested")?.at("p1")?.size).isEqualTo(3)
     }
 }
