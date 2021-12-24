@@ -3,7 +3,7 @@ package nl.dirkgroot.xset
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
-import assertk.assertions.isNotNull
+import assertk.assertions.isNotEqualTo
 import assertk.assertions.isTrue
 import assertk.assertions.isZero
 import org.junit.jupiter.api.Test
@@ -40,7 +40,6 @@ class ExtendedSetTest {
         assertThat(set.at("bar")).isEqualTo(null)
     }
 
-
     @Test
     fun `type safe nested extended sets`() {
         val p1 = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
@@ -53,5 +52,25 @@ class ExtendedSetTest {
         assertThat(parent2.at("triple nested")?.size).isEqualTo(1)
         assertThat(parent2.at("triple nested")?.at("double nested")?.size).isEqualTo(2)
         assertThat(parent2.at("triple nested")?.at("double nested")?.at("p1")?.size).isEqualTo(3)
+    }
+
+    @Test
+    fun equality() {
+        val p1 = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
+        val p2 = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
+        val p3 = extendedSetOf<Any, String>("Dirk" at "name")
+
+        assertThat(p1).isEqualTo(p2)
+        assertThat(p1).isNotEqualTo(p3)
+    }
+
+    @Test
+    fun `subset of`() {
+        val p1 = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
+        val p2 = extendedSetOf<Any, String>("Dirk" at "name")
+        val p3 = extendedSetOf<Any, String>("Dirk" at "name", "Groot" at "surname")
+
+        assertThat(p2 isSubsetOf p1).isTrue()
+        assertThat(p3 isSubsetOf p1).isFalse()
     }
 }
