@@ -3,6 +3,7 @@ package nl.dirkgroot.xset
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
+import assertk.assertions.isNotNull
 import assertk.assertions.isTrue
 import assertk.assertions.isZero
 import org.junit.jupiter.api.Test
@@ -18,9 +19,7 @@ class ExtendedSetTest {
 
     @Test
     fun `xset with some elements`() {
-        val set = extendedSetOf<Any, String>(
-            "Dirk" at "name", "Arnhem" at "city", 44 at "age"
-        )
+        val set = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
 
         assertThat(set.isEmpty()).isFalse()
         assertThat(set.size).isEqualTo(3)
@@ -35,8 +34,11 @@ class ExtendedSetTest {
 
     @Test
     fun `element projection`() {
-        val set = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
-        val element = set.at("name")
+        val set = extendedSetOf("Dirk" at "name", "Arnhem" at "city", 44 at "age", "foo" at "bar", "baz" at "bar")
+
+        assertThat(set.at("name")).isEqualTo("Dirk")
+        assertThat(set.at("bar")).isEqualTo(null)
+    }
 
         assertThat(element).isEqualTo("Dirk")
     }
