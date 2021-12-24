@@ -1,9 +1,11 @@
 package nl.dirkgroot.xset
 
 import assertk.assertThat
+import assertk.assertions.isEmpty
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFalse
 import assertk.assertions.isNotEqualTo
+import assertk.assertions.isNotNull
 import assertk.assertions.isTrue
 import assertk.assertions.isZero
 import org.junit.jupiter.api.Test
@@ -72,5 +74,26 @@ class ExtendedSetTest {
 
         assertThat(p2 isSubsetOf p1).isTrue()
         assertThat(p3 isSubsetOf p1).isFalse()
+    }
+
+    @Test
+    fun `restrict nested sets`() {
+        val p1 = extendedSetOf<Any, String>("Dirk" at "name", "Arnhem" at "city", 44 at "age")
+        val p2 = extendedSetOf<Any, String>("Julia" at "name", "Arnhem" at "city", 19 at "age")
+        val set = extendedSetOf(p1 at "person", p2 at "person")
+
+        val julia = extendedSetOf(extendedSetOf<Any, String>("Julia" at "name") at "person")
+        val restrictedToJulia = set restrictTo julia
+        assertThat(restrictedToJulia.size).isEqualTo(1)
+        assertThat(restrictedToJulia.at("person")?.contains("Julia", "name")).isNotNull().isTrue()
+        assertThat(restrictedToJulia.at("person")?.contains("Dirk", "name")).isNotNull().isFalse()
+
+        val arnhem = extendedSetOf(extendedSetOf<Any, String>("Arnhem" at "city") at "person")
+        val restrictedToArnhem = set restrictTo arnhem
+        assertThat(restrictedToArnhem).isEqualTo(set)
+
+        val otherScope = extendedSetOf(extendedSetOf<Any, String>("Arnhem" at "city") at "other")
+        val restrictToNothing = set restrictTo otherScope
+        assertThat(restrictToNothing).isEmpty()
     }
 }
